@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#0b4f9c">
+
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="مدیریت هستی">
+
+  <title>مدیریت مجتمع مسکونی هستی</title>
+
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="apple-touch-icon" sizes="180x180" href="./icons/apple-touch-icon.png">
+  <link rel="apple-touch-icon" sizes="167x167" href="./icons/icon-167.png">
+  <link rel="icon" type="image/png" sizes="48x48" href="./icons/favicon-48.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="./icons/favicon-32.png">
+  <link rel="shortcut icon" href="./favicon.ico">
+
+  <style>
+    * { box-sizing: border-box; }
+    html, body { min-height: 100%; margin: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Vazirmatn",
+                   "Tahoma", sans-serif;
+      background:
+        radial-gradient(circle at 50% 8%, rgba(47,151,255,.13), transparent 34%),
+        linear-gradient(180deg, #f8fbff 0%, #eef6ff 100%);
+      color: #12233d;
+      display: grid;
+      place-items: center;
+      padding: max(22px, env(safe-area-inset-top))
+               max(22px, env(safe-area-inset-right))
+               max(22px, env(safe-area-inset-bottom))
+               max(22px, env(safe-area-inset-left));
+    }
+    .card {
+      width: min(92vw, 480px);
+      background: rgba(255,255,255,.92);
+      border: 1px solid rgba(16,72,132,.10);
+      box-shadow: 0 18px 50px rgba(18,63,111,.13);
+      border-radius: 28px;
+      padding: 28px 24px 24px;
+      text-align: center;
+      backdrop-filter: blur(12px);
+    }
+    .logo {
+      width: 150px;
+      height: 150px;
+      border-radius: 29px;
+      object-fit: cover;
+      box-shadow: 0 12px 28px rgba(23,76,135,.18);
+      margin: 0 auto 18px;
+      display: block;
+    }
+    h1 {
+      margin: 0 0 10px;
+      font-size: clamp(25px, 6vw, 34px);
+      line-height: 1.45;
+      font-weight: 780;
+    }
+    p {
+      margin: 0 auto 20px;
+      color: #64748b;
+      line-height: 1.9;
+      font-size: 16px;
+      max-width: 36ch;
+    }
+    .button {
+      display: inline-flex;
+      min-height: 54px;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      background: #0d2347;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 16px;
+      font-weight: 700;
+      font-size: 18px;
+      padding: 13px 18px;
+    }
+    .tip {
+      margin-top: 18px;
+      background: #eef6ff;
+      border: 1px solid #d9eaff;
+      border-radius: 14px;
+      padding: 12px 14px;
+      color: #31577d;
+      font-size: 14px;
+      line-height: 1.8;
+    }
+    .launching {
+      display:none;
+      margin-top: 13px;
+      font-size: 14px;
+      color:#64748b;
+    }
+  </style>
+</head>
+<body>
+  <main class="card">
+    <img class="logo" src="./icons/icon-512.png" alt="لوگوی مجتمع مسکونی هستی">
+    <h1>مدیریت مجتمع مسکونی «هستی»</h1>
+    <p>این صفحه فقط برای نصب آیکون و ورود مطمئن به سامانه مدیریت مجتمع استفاده می‌شود.</p>
+    <a class="button" id="openApp" href="https://script.google.com/macros/s/AKfycbwitWA6ZuNSXAj8XJqvkD37tGmGTYuOvgp9ez-7h-a_z6IC5fwdE6eUPB2q9SLgo21vxw/exec">ورود به سامانه</a>
+    <div class="launching" id="launching">در حال باز کردن سامانه…</div>
+    <div class="tip" id="installTip">
+      در iPhone این صفحه را در Safari باز کنید، سپس
+      <strong>Share → Add to Home Screen</strong>
+      را بزنید. آیکون «هستی» باید در پیش‌نمایش دیده شود.
+    </div>
+  </main>
+
+  <script>
+    const APP_URL = "https://script.google.com/macros/s/AKfycbwitWA6ZuNSXAj8XJqvkD37tGmGTYuOvgp9ez-7h-a_z6IC5fwdE6eUPB2q9SLgo21vxw/exec";
+    const standalone =
+      window.matchMedia('(display-mode: standalone)').matches ||
+      window.navigator.standalone === true;
+
+    // وقتی کاربر آیکون Home Screen را اجرا می‌کند، مستقیماً وارد Apps Script شود.
+    if (standalone) {
+      document.getElementById('installTip').style.display = 'none';
+      document.getElementById('launching').style.display = 'block';
+      window.setTimeout(() => window.location.replace(APP_URL), 180);
+    }
+
+    // امکان باز کردن مستقیم با ?open=1
+    if (new URLSearchParams(location.search).get('open') === '1') {
+      window.location.replace(APP_URL);
+    }
+  </script>
+</body>
+</html>
